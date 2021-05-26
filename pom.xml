@@ -6,7 +6,7 @@
 
     <groupId>br.ufrn.sti.web.filters</groupId>
     <artifactId>sti-web-filter-xss</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <name>Filtro de Segurança XSS</name>
     <description>Filtro de segurança que previne ataques por XSS.</description>
@@ -235,7 +235,7 @@
         <repository>
             <id>github</id>
             <name>GitHub STI-UFRN Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/sti-ufrn/br.ufrn.sti.web.filters</url>
+            <url>https://maven.pkg.github.com/sti-ufrn/sti-web-filter-xss</url>
         </repository>
     </distributionManagement>
 
