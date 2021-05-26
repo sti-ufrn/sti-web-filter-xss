@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>br.ufrn.sti.web.filters</groupId>
+    <artifactId>sti-web-filter-xss</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <name>Filtro de Segurança XSS</name>
+    <description>Filtro de segurança que previne ataques por XSS.</description>
+    <url>https://github.com/sinfo-ufrn/sinfo-arq-filtros-xss</url>
+
+    <organization>
+        <name>Superintendência de Tecnologia da Informação da UFRN</name>
+        <url>http://info.ufrn.br/</url>
+    </organization>
+
+    <developers>
+        <developer>
+            <id>raphaelmedeiros</id>
+            <name>Raphael Medeiros</name>
+            <email>raphael.medeiros@gmail.com</email>
+            <url>https://byraphaelmedeiros.com/</url>
+            <roles>
+                <role>Software Engineer</role>
+            </roles>
+            <organization>Superintendência de Tecnologia da Informação da UFRN</organization>
+            <organizationUrl>http://info.ufrn.br/</organizationUrl>
+            <timezone>-03</timezone>
+        </developer>
+    </developers>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.6</java.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.owasp.esapi</groupId>
+            <artifactId>esapi</artifactId>
+            <version>2.1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-api</artifactId>
+            <version>1.2</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                        </manifest>
+
+                        <manifestEntries>
+                            <Author-ID>raphaelmedeiros</Author-ID>
+                            <Author-Name>Raphael Medeiros</Author-Name>
+                            <Author-Mail>raphael.medeiros@gmail.com</Author-Mail>
+                            <Author-URL>https://byraphaelmedeiros.com/</Author-URL>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.2</version>
+
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.4</version>
+
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+
+                        <configuration>
+                            <additionalparam>-Xdoclint:none</additionalparam>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub SINFO-UFRN Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/sinfo-ufrn/sinfo-arq-filtros-xss</url>
+        </repository>
+    </distributionManagement>
+
+    <scm>
+        <connection>scm:git:ssh://git@github.com:sinfo-ufrn/sinfo-arq-filtros-xss.git</connection>
+        <url>scm:git:ssh://git@github.com:sinfo-ufrn/sinfo-arq-filtros-xss.git</url>
+        <developerConnection>scm:git:ssh://git@github.com:sinfo-ufrn/sinfo-arq-filtros-xss.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+</project>
