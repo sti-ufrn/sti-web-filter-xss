@@ -10,7 +10,7 @@
 
     <name>Filtro de Segurança XSS</name>
     <description>Filtro de segurança que previne ataques por XSS.</description>
-    <url>https://github.com/sinfo-ufrn/sinfo-arq-filtros-xss</url>
+    <url>https://github.com/sti-ufrn/sti-web-filter-xss</url>
 
     <organization>
         <name>Superintendência de Tecnologia da Informação da UFRN</name>
@@ -19,7 +19,19 @@
 
     <developers>
         <developer>
-            <id>raphaelmedeiros</id>
+            <id>arlindonatal</id>
+            <name>Arlindo Rodrigues</name>
+            <email>arlindonatal@gmail.com</email>
+            <roles>
+                <role>Software Engineer</role>
+            </roles>
+            <organization>Superintendência de Tecnologia da Informação da UFRN</organization>
+            <organizationUrl>http://info.ufrn.br/</organizationUrl>
+            <timezone>-03</timezone>
+        </developer>
+
+        <developer>
+            <id>byraphaelmedeiros</id>
             <name>Raphael Medeiros</name>
             <email>raphael.medeiros@gmail.com</email>
             <url>https://byraphaelmedeiros.com/</url>
@@ -74,8 +86,6 @@
     </dependencies>
 
     <build>
-        <finalName>${project.artifactId}</finalName>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -145,21 +155,94 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>io.spring.javaformat</groupId>
+                <artifactId>spring-javaformat-maven-plugin</artifactId>
+                <version>0.0.15</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>6.1.1</version>
+                <configuration>
+                    <format>ALL</format>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>aggregate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.4</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+
+                    <execution>
+                        <id>post-unit-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
 
     <distributionManagement>
         <repository>
             <id>github</id>
-            <name>GitHub SINFO-UFRN Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/sinfo-ufrn/sinfo-arq-filtros-xss</url>
+            <name>GitHub STI-UFRN Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/sti-ufrn/br.ufrn.sti.web.filters</url>
         </repository>
     </distributionManagement>
 
     <scm>
-        <connection>scm:git:ssh://git@github.com:sinfo-ufrn/sinfo-arq-filtros-xss.git</connection>
-        <url>scm:git:ssh://git@github.com:sinfo-ufrn/sinfo-arq-filtros-xss.git</url>
-        <developerConnection>scm:git:ssh://git@github.com:sinfo-ufrn/sinfo-arq-filtros-xss.git</developerConnection>
+        <connection>scm:git:ssh://git@github.com:sti-ufrn/sti-web-filter-xss.git</connection>
+        <url>scm:git:ssh://git@github.com:sti-ufrn/sti-web-filter-xss.git</url>
+        <developerConnection>scm:git:ssh://git@github.com:sti-ufrn/sti-web-filter-xss.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 

@@ -12,7 +12,6 @@ import org.owasp.esapi.ESAPI;
 
 /**
  * @author Raphael Medeiros (raphael.medeiros@gmail.com)
- *
  * @since 06/02/2019
  */
 public class XSSUtils {
@@ -23,8 +22,10 @@ public class XSSUtils {
 			// Script fragments
 			Pattern.compile("<script>(.*?)</script>", Pattern.CASE_INSENSITIVE),
 			// src='...'
-			Pattern.compile("src[\r\n]*=[\r\n]*\\\'(.*?)\\\'", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL),
-			Pattern.compile("src[\r\n]*=[\r\n]*\\\"(.*?)\\\"", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL),
+			Pattern.compile("src[\r\n]*=[\r\n]*\\\'(.*?)\\\'",
+					Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL),
+			Pattern.compile("src[\r\n]*=[\r\n]*\\\"(.*?)\\\"",
+					Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL),
 			// lonely script tags
 			Pattern.compile("</script>", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("<script(.*?)>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL),
@@ -37,8 +38,7 @@ public class XSSUtils {
 			// vbscript:...
 			Pattern.compile("vbscript:", Pattern.CASE_INSENSITIVE),
 			// onload(...)=...
-			Pattern.compile("onload(.*?)=", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL)
-	};
+			Pattern.compile("onload(.*?)=", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL) };
 
 	public boolean hasXSS(Map map) {
 		logger.debug(String.format("Map value...........: %s", map));
@@ -84,8 +84,8 @@ public class XSSUtils {
 		logger.debug(String.format("Value to Strip XSS..: %s", value));
 
 		if (value != null) {
-			// NOTE: It's highly recommended to use the ESAPI library and uncomment the following line to
-			// avoid encoded attacks.
+			// NOTE: It's highly recommended to use the ESAPI library and uncomment the
+			// following line to avoid encoded attacks.
 			value = ESAPI.encoder().canonicalize(value);
 			logger.debug(String.format("Value after ESAPI...: %s", value));
 
@@ -138,4 +138,5 @@ public class XSSUtils {
 
 		return Collections.unmodifiableMap(newMap);
 	}
+
 }

@@ -11,7 +11,6 @@ import org.apache.log4j.Logger;
 
 /**
  * @author Raphael Medeiros (raphael.medeiros@gmail.com)
- *
  * @since 04/02/2019
  */
 public class XSSRequestWrapper extends HttpServletRequestWrapper {
@@ -64,7 +63,8 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
 			logger.debug(String.format("Values...: %s", Arrays.toString(values)));
 
 			return values[0];
-		} else {
+		}
+		else {
 			return null;
 		}
 	}
@@ -78,4 +78,5 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
 
 		return xssUtils.stripXSS(value);
 	}
+
 }

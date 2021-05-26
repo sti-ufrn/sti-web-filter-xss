@@ -14,21 +14,26 @@ import java.util.*;
 /**
  * @author Raphael Medeiros (raphael.medeiros@gmail.com)
  * @author Arlindo Rodrigues (arlindonatal@gmail.com)
- *
  * @since 04/02/2019
  */
 public class XSSFilter implements Filter {
 
 	private List<String> excludedUrls = new ArrayList<String>();
+
 	private Set<String> urls = new HashSet<String>();
+
 	private XSSUtils xssUtils = new XSSUtils();
 
 	private static final String INIT_PARAM_LOGGING = "logging";
+
 	private static final String INIT_PARAM_BEHAVIOR = "behavior";
+
 	private static final String INIT_PARAM_FORWARDTO = "forwardTo";
 
 	private static final String BEHAVIOR_PROTECT = "protect";
+
 	private static final String BEHAVIOR_THROW = "throw";
+
 	private static final String BEHAVIOR_FORWARD = "forward";
 
 	private FilterConfig filterConfig;
@@ -38,13 +43,14 @@ public class XSSFilter implements Filter {
 	private static long attempts = 0;
 
 	@Override
-	public void init(FilterConfig filterConfig){
+	public void init(FilterConfig filterConfig) {
 		this.filterConfig = filterConfig;
 		String excludePattern = filterConfig.getInitParameter("excludedUrls");
 		if (excludePattern != null && !excludePattern.isEmpty()) {
 			excludedUrls = Arrays.asList(excludePattern.split(","));
 			for (String excludeUrl : excludedUrls)
-				urls.add(excludeUrl.replaceAll("\\s", "").replaceAll("\\n", "").replaceAll("\\r", "").replaceAll("\\t", "").replaceAll(" ", ""));
+				urls.add(excludeUrl.replaceAll("\\s", "").replaceAll("\\n", "").replaceAll("\\r", "")
+						.replaceAll("\\t", "").replaceAll(" ", ""));
 		}
 	}
 
@@ -65,12 +71,13 @@ public class XSSFilter implements Filter {
 
 			if (!excludedUrls.contains(path)) {
 
-				ResettableStreamHttpServletRequest originalRequest = new ResettableStreamHttpServletRequest(httpServletRequest);
+				ResettableStreamHttpServletRequest originalRequest = new ResettableStreamHttpServletRequest(
+						httpServletRequest);
 				String body = IOUtils.toString(originalRequest.getReader());
 				boolean isUnsafeParams = xssUtils.hasXSS(originalRequest.getParameterMap());
 				boolean isUnsafeBody = xssUtils.hasXSS(body);
 
-				if (isUnsafeParams || isUnsafeBody){
+				if (isUnsafeParams || isUnsafeBody) {
 
 					String pLogging = filterConfig.getInitParameter(INIT_PARAM_LOGGING);
 					if (pLogging != null && pLogging.equalsIgnoreCase("true")) {
@@ -83,25 +90,30 @@ public class XSSFilter implements Filter {
 					if (!isUnsafeBody && behavior != null && behavior.equalsIgnoreCase(BEHAVIOR_PROTECT)) {
 						originalRequest.resetInputStream();
 						filterChain.doFilter(new XSSRequestWrapper(originalRequest), resp);
-					} else if (behavior != null && behavior.equalsIgnoreCase(BEHAVIOR_FORWARD) && forwardTo != null) {
+					}
+					else if (behavior != null && behavior.equalsIgnoreCase(BEHAVIOR_FORWARD) && forwardTo != null) {
 						HttpServletResponse currentResponse = (HttpServletResponse) resp;
 						currentResponse.setStatus(HttpServletResponse.SC_CONTINUE);
 						RequestDispatcher dd = originalRequest.getRequestDispatcher(forwardTo);
 						dd.forward(originalRequest, currentResponse);
-					} else {
+					}
+					else {
 						throw new ServletException("XSS Injection Detected!");
 					}
 
-				} else {
+				}
+				else {
 					originalRequest.resetInputStream();
 					filterChain.doFilter(originalRequest, resp);
 				}
 
-			} else {
+			}
+			else {
 				filterChain.doFilter(httpServletRequest, resp);
 			}
 
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			logger.error("Erro no tratamento de XSS.", e);
 			filterChain.doFilter(req, resp);
 		}
@@ -111,7 +123,9 @@ public class XSSFilter implements Filter {
 	private static class ResettableStreamHttpServletRequest extends HttpServletRequestWrapper {
 
 		private byte[] rawData;
+
 		private HttpServletRequest request;
+
 		private ResettableServletInputStream servletStream;
 
 		public ResettableStreamHttpServletRequest(HttpServletRequest request) {
@@ -119,7 +133,6 @@ public class XSSFilter implements Filter {
 			this.request = request;
 			this.servletStream = new ResettableServletInputStream();
 		}
-
 
 		public void resetInputStream() {
 			servletStream.stream = new ByteArrayInputStream(rawData);
@@ -143,7 +156,6 @@ public class XSSFilter implements Filter {
 			return new BufferedReader(new InputStreamReader(servletStream));
 		}
 
-
 		private class ResettableServletInputStream extends ServletInputStream {
 
 			private InputStream stream;
@@ -152,7 +164,9 @@ public class XSSFilter implements Filter {
 			public int read() throws IOException {
 				return stream.read();
 			}
+
 		}
+
 	}
 
 	private void registrarLogOcorrenciaParametrosSuspeitos(HttpServletRequest originalRequest, String body) {
@@ -165,7 +179,7 @@ public class XSSFilter implements Filter {
 		sb.append("\nParameters via " + originalRequest.getMethod());
 		Map paramMap = originalRequest.getParameterMap();
 		if (paramMap != null) {
-			for (Iterator iter = paramMap.keySet().iterator(); iter.hasNext(); ) {
+			for (Iterator iter = paramMap.keySet().iterator(); iter.hasNext();) {
 				String paramName = (String) iter.next();
 				String[] paramValues = originalRequest.getParameterValues(paramName);
 				sb.append("\n\t" + paramName + " = ");
@@ -183,4 +197,5 @@ public class XSSFilter implements Filter {
 
 		logger.error(sb);
 	}
+
 }

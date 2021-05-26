@@ -10,7 +10,6 @@ import org.junit.Test;
 
 /**
  * @author Raphael Medeiros (raphael.medeiros@gmail.com)
- *
  * @since 08/02/2019
  */
 public class XSSUtilsTest {
@@ -68,4 +67,5 @@ public class XSSUtilsTest {
 		Assert.assertNotNull(map);
 		Assert.assertTrue((map instanceof Map));
 	}
+
 }
